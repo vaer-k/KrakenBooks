@@ -31,7 +31,7 @@ app.get('/bookDetail', cors(), function(req, res, next) {
     }).on('end', function() {
       var body = Buffer.concat(bodyChunks);
       res.send(body);
-    })
+    });
   });
 });
 
@@ -47,7 +47,7 @@ app.post('/sendMail', function(req, res) {
     text: data.text, // plaintext body
     // html: data.html // html body
   };
-  console.log(mailOptions)
+  console.log(mailOptions);
 
   //create transporter object w/ mailgun credentials
   var transporter = nodemailer.createTransport({
