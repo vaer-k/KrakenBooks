@@ -24,6 +24,7 @@
     "express": "^4.13.1",
     "express-handlebars": "^2.0.1",
     "mongodb": "^2.0.39",
+    "mongoose": "^4.1.0",
     "ng-file-upload": "^5.0.9",
     "nodemailer": "^1.4.0",
     "nodemailer-express-handlebars": "^1.0.0"
