@@ -11,6 +11,7 @@ angular.module('omnibooks.database', ['firebase'])
         createdBy: username,
         askingPrice: price
       };
+      
       // push book details in org books and user bookshelf nodes
       var newBookRef = myDataRef.child(org).child('books').push(bookDetails);
       var bookID = newBookRef.key();
