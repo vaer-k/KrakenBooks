@@ -1,21 +1,21 @@
-// var express = require('express');
-// var cors = require('cors');
-// var http = require('http');
-// var app = express();
-// var bodyParser = require('body-parser');
-// var nodemailer = require('nodemailer');
-// var hbs = require('nodemailer-express-handlebars');
-// var exphbs  = require('express-handlebars');
-// // var PORT_num = process.env.PORT;
-// app.set('port', (process.env.PORT || 3000));
+var express = require('express');
+var cors = require('cors');
+var http = require('http');
+var app = express();
+var bodyParser = require('body-parser');
+var nodemailer = require('nodemailer');
+var hbs = require('nodemailer-express-handlebars');
+var exphbs  = require('express-handlebars');
+// var PORT_num = process.env.PORT;
+app.set('port', (process.env.PORT || 3000));
 
-// app.use(cors());
-// app.use(bodyParser.urlencoded({
-//   extended: true
-// }));
-// app.use(bodyParser.json());
-// app.use(express.static(__dirname + '/public'));
-// app.use('/bower_components', express.static(__dirname + '/bower_components'));
+app.use(cors());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 app.get('/bookDetail', cors(), function(req, res, next) {
   console.log(req.query.book_isbn);
@@ -31,7 +31,7 @@ app.get('/bookDetail', cors(), function(req, res, next) {
     }).on('end', function() {
       var body = Buffer.concat(bodyChunks);
       res.send(body);
-    });
+    })
   });
 });
 
@@ -47,7 +47,7 @@ app.post('/sendMail', function(req, res) {
     text: data.text, // plaintext body
     // html: data.html // html body
   };
-  console.log(mailOptions);
+  console.log(mailOptions)
 
   //create transporter object w/ mailgun credentials
   var transporter = nodemailer.createTransport({
