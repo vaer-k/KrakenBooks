@@ -7,7 +7,7 @@ var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
 var exphbs  = require('express-handlebars');
 // var PORT_num = process.env.PORT;
-app.set('port', (process.env.PORT || 8000));
+app.set('port', (process.env.PORT || 3000));
 
 app.use(cors());
 app.use(bodyParser.urlencoded({
