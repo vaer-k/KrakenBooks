@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var nodemailer = require('nodemailer');
+var hbs = require('nodemailer-express-handlebars');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
 
   var data = req.body;
 
@@ -11,8 +13,15 @@ router.get('/', function(req, res, next) {
     from: data.from, // sender address
     to: data.to, // list of receivers
     subject: data.subject, // Subject line
+    /* SCRAP
     text: data.text, // plaintext body
-    // html: data.html // html body
+    html: data.html // html body
+    */
+    template: 'email_body',
+    context: {
+      variable1 : 'value1',
+      variable2: 'value2'
+    }
   };
   console.log(mailOptions);
 
@@ -24,6 +33,19 @@ router.get('/', function(req, res, next) {
       pass: 'makersquare'
     }
   });
+
+  var options = {
+    viewEngine: {
+      extname: '.hbs',
+      layoutsDir: 'views/email/',
+      defaultLayout: 'template',
+      partialsDir: 'views/partials'
+    },
+    viewPath: 'views/email/',
+    extName: '.hbs'
+  };
+
+  transporter.use('compile', hbs(options));
 
   transporter.sendMail(mailOptions, function(error) {
     if (error) {
