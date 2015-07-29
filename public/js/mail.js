@@ -18,10 +18,12 @@ angular.module('omnibooks.mail', [])
         var bookOwner;
         var bookTitle;
         var bookAskingPrice;
+        var bookImage;
         var bookInfo = fireBase.getUserBook(currentOrg, currentUser, $scope.itemId, function(data) {
           bookOwner = data.createdBy;
           bookTitle = data.title;
           bookAskingPrice = data.askingPrice;
+          bookImage = data.img;
         });
 
         // addl user message
@@ -36,7 +38,8 @@ angular.module('omnibooks.mail', [])
           offerAmt: offerAmt,
           bookOwner: bookOwner,
           bookTitle: bookTitle,
-          bookAskingPrice: bookAskingPrice
+          bookAskingPrice: bookAskingPrice,
+          bookImage: bookImage
         };
 
         // get seller's email
