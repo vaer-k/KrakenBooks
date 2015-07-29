@@ -9,7 +9,7 @@ var cors = require('cors');
 var hbs = require('nodemailer-express-handlebars');
 var exphbs  = require('express-handlebars');
 
-var routes = require('./routes/index');
+// var routes = require('./routes/index');
 var bookDetail = require('./routes/bookDetail');
 var sendMail = require('./routes/sendMail');
 
@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
-app.use('/', routes);
+// app.use('/', routes);
 app.use('/bookDetail', bookDetail);
 app.use('/sendMail', sendMail);
 
