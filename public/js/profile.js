@@ -2,13 +2,13 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
 .run(function(editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 })
-.controller('ProfileController', ['$scope', '$stateParams', '$modal', '$state', 'auth', 'fireBase','Upload','$http',
-  function($scope, $stateParams, $modal, $state, auth, fireBase, Upload,$http) {
+.controller('ProfileController', ['$scope', '$stateParams', '$modal', '$state', 'auth', 'fireBase', 'bookinfoAPI', 'Upload','$http',
+  function($scope, $stateParams, $modal, $state, auth, fireBase, bookinfoAPI, Upload, $http) {
     var currentOrg = auth.getOrg();
     var currentUser = auth.getUser();
       $scope.upload = function (files) {
         if(files){
-          console.log('up load file!!!');
+          console.log('up load file!!!')
         console.log(files);
         var file = files[0];
       }
@@ -16,23 +16,44 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
 
     $scope.enterBook = function(title, url, author, isbn, price, files) {
       $scope.upload(files);
-      if (title && url && author && isbn) {
+      url = url||'http://books.sorodesign.com/wp-content/uploads/2010/01/book-cover-full-small.jpg'
+      if (isbn && price) {
         $scope.error = false;
-      if (isbn.charAt(3) === '-') {
-        isbn = isbn.slice(0, 3) + isbn.slice(4);
-        console.log(isbn);
-      }
+        if (isbn.charAt(3) === '-') {
+          isbn = isbn.slice(0, 3) + isbn.slice(4)
+          console.log(isbn)
+        }
+        var displayDetail = function(res) {
+           // $scope.prices = res.data.data;
+          console.log('ibsndb returned data', res);
+          title = res[0].title_long;
+          author = res[0].author_data[0].name;
+          console.log('title & author :', title+ " " + author);
+          console.log('currentOrg :',currentOrg);
+          console.log('currentUser.$id :',currentUser.$id);
+          console.log('price: ',price);
+            console.log('url', url); 
+              console.log('isbn:',isbn)
+        fireBase.enterBook(currentOrg, currentUser.$id, title, url, author, isbn, price);
+        console.log('successfully entered');
+           
+        };
 
-      if (price.charAt(0) === '$') {
-        price = price.slice(1);
-        console.log(price);
-      }
+        if (price.charAt(0) === '$') {
+          price = price.slice(1);
+          console.log(price)
+        }
 
-      fireBase.enterBook(currentOrg, currentUser.$id, title, url, author, isbn, price);
-      console.log('successfully entered');
-    } else {
-      $scope.error = "*You must fill out all required fields";
-    }
+        bookinfoAPI.getInfo(isbn, displayDetail);
+       // title = Info.data.data[0].title;
+         // console.log('title :', Info)
+       // author = Info[0].author_data[0].name;
+        // console.log('author :', Info[0].author_data[0].name)
+
+
+      } else {
+        $scope.error = "*You must fill out all required fields";
+      }
   };
 
   $scope.deleteBook = function(book) {
@@ -70,9 +91,9 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
       img: $scope.bookEdit.img,
       isbn: $scope.bookEdit.isbn,
       askingPrice: $scope.bookEdit.askingPrice
-    };
+    }
     fireBase.updateBook($scope.org, $scope.username, $scope.bookEdit.$id, update);
-  };
+  }
 }])
 .directive('modal', function() {
   return {
@@ -94,4 +115,23 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
       };
     }
   };
+})
+.factory('bookinfoAPI', function($http) {
+    var key = 'UTUJEB5A';
+    var getInfo = function(isbn, callback) {
+      return $http({
+          method: 'GET',
+          url: '/bookInfo',
+          params: {
+            'book_isbn': isbn
+          }
+        })
+        .then(function(res) {
+          console.log('book info', res.data.data)
+          callback(res.data.data);
+        });
+    };
+    return {
+      getInfo: getInfo
+    };
 });
