@@ -6,18 +6,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 var router = express.Router();
 
-router.post('/',
-  passport.authenticate('local'),
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
+router.post('/', function (req, res, next){
 
-    /* SCRAP
-    // TODO do something once authenticated
-    // Example:
-    // res.redirect('/users/' + req.user.username);
-    */
+  passport.authenticate('local', function(err, user, info) {
+      if (err) { return next(err); }
 
+      // TODO do something upon authentication
+      if (!user) { return res.redirect('/login'); }
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        return res.redirect('/users/' + user.username);
+      });
+    })(req, res, next);
 });
 
 module.exports = router;
