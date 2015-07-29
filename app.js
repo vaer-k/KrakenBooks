@@ -11,13 +11,23 @@ var hbs = require('nodemailer-express-handlebars');
 var exphbs  = require('express-handlebars');
 */
 
-// var routes = require('./routes/index');
-var bookDetail = require('./routes/bookDetail');
-var sendMail = require('./routes/sendMail');
+// *******************ROUTES*************************
+// MongoDB routes
 var bookServices = require('./routes/bookServices');
 var otherServices = require('./routes/otherServices');
 var userServices = require('./routes/userServices');
+
+// Mail routes
+var sendMail = require('./routes/sendMail');
+
+// Authentication routes
 var login = require('./routes/login');
+
+// Search routes
+var bookDetail = require('./routes/bookDetail');
+
+// **************************************************
+
 
 var app = express();
 
