@@ -6,15 +6,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 var router = express.Router();
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next){
 
-  /* SCRAP
-  passport.authenticate('local', {
-    // TODO do something upon authentication, but what?
-    //      maybe initialize session?
-  });
-  */
+  passport.authenticate('local', function(err, user, info) {
+      if (err) { return next(err); }
 
+      // TODO do something upon authentication
+      if (!user) { return res.redirect('/login'); }
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        return res.redirect('/users/' + user.username);
+      });
+    })(req, res, next);
 });
 
 module.exports = router;
