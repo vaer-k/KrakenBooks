@@ -32,6 +32,13 @@ angular.module('omnibooks.mail', [])
           }
         }
 
+        var info = {
+          offerAmt: offerAmt,
+          bookOwner: bookOwner,
+          bookTitle: bookTitle,
+          bookAskingPrice: bookAskingPrice
+        };
+
         // get seller's email
         var emailTo;
         var sellerUserEmail = fireBase.getUserEmail(currentOrg, bookOwner, function(data) {
@@ -41,12 +48,15 @@ angular.module('omnibooks.mail', [])
             to: emailTo,
             from: emailFrom,
             subject: "Hey, " + bookOwner + " - You have received an offer on " + bookTitle + "!",
+            info: info
+            /* SCRAP
             // html: "content",
             text: "You have received an offer on " + bookTitle + " for $" + offerAmt + "!\n" +
               "You posted this book for $" + bookAskingPrice + "\n" +
               "You can respond to this offer, by emailing the buyer at " + emailFrom + ".\n"
               + userMsg + 
               "\n\nThanks for using OmniBooks!"
+            */
           });
 
           // post request to express routing
