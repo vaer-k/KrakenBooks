@@ -6,14 +6,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 var router = express.Router();
 
-router.post('/', function(req, res, next) {
+router.post('/',
+  passport.authenticate('local'),
+  function(req, res) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
 
-  /* SCRAP
-  passport.authenticate('local', {
-    // TODO do something upon authentication, but what?
-    //      maybe initialize session?
-  });
-  */
+    /* SCRAP
+    // TODO do something once authenticated
+    // Example:
+    // res.redirect('/users/' + req.user.username);
+    */
 
 });
 
