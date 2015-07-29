@@ -14,7 +14,7 @@
         <p class="bookauthor">  {{ book.author}} </p>
       </a>
       <button class="btn btn-default" id='sellButton' class="md-trigger"
-        ng-click="toggleDeleteModal(book)">Delete Book</button>
+        ng-click="toggleDeleteModal(book)">Delete Item</button>
       </li>
 
       <li class='bookitem'>
@@ -90,13 +90,13 @@
           <input type="text" placeholder='Item Image Url' ng-model='itemImgUrl'>
           <input type='text' placeholder='Item Name' ng-model='itemName'>
           <input type="text" placeholder='Description' ng-model='itemDescription'>
-          <input type="text" placeholder='Asking Price' ng-model='ItemPrice'>
+          <input type="text" placeholder='Asking Price' ng-model='itemPrice'>
         </div>
       </form>
       <div>
         <span class="entryError">{{error}}</span>
       </div>
-      <button class="btn btn-default" class="md-trigger" ng-click="enterItem(); toggleItemModal()">Submit</button>
+      <button class="btn btn-default" class="md-trigger" ng-click="enterItem(itemImgUrl,itemName,itemDescription,itemPrice); toggleItemModal()">Submit</button>
     </modal>
   </div>
 

@@ -17,7 +17,7 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
     $scope.enterBook = function(title, url, author, isbn, price, files) {
       $scope.upload(files);
       if (title && url && author && isbn) {
-          $scope.error = false;
+        $scope.error = false;
         if (isbn.charAt(3) === '-') {
           isbn = isbn.slice(0, 3) + isbn.slice(4);
           console.log(isbn);
@@ -35,8 +35,18 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
       }
     };
 
-    $scope.enterItem = function() {
-      console.log('Entered Item! But not really.')
+    $scope.enterItem = function(itemImgUrl, itemName, itemDescription, itemPrice) {
+      if (itemName && itemImgUrl && itemDescription) {
+        $scope.error = false;
+        if (itemPrice.charAt(0) === '$') {
+          itemPrice = itemPrice.slice(1);
+        }
+
+        fireBase.enterBook(currentOrg, currentUser.$id, itemName, itemImgUrl, itemDescription, '0812550706', itemPrice);
+        console.log('successfully entered');
+      } else{
+        $scope.error = "*You must fill out all required fields";
+      }
     };
 
     $scope.deleteBook = function(book) {
