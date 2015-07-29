@@ -23,6 +23,14 @@
         <p class="booktitle">  Sell A Book </p>
         </a>
       </li>
+
+      <li class='bookitem'>
+        <a ng-click="toggleItemModal()" class="link">
+        <img src="../images/book.jpg ">
+        <p class="booktitle">  Sell Something Else </p>
+        </a>
+      </li>
+
     </ul>
   </div>
 
@@ -72,6 +80,24 @@
     <h1>Are you sure you want to delete?</h1>
     <button ng-click='deleteBook(bookDelete); toggleDeleteModal()'>Yes</button>
     <button ng-click='toggleDeleteModal()'>No</button>
+  </div>
+
+  <div modal-show="showDialog" class="modal fade">
+    <modal title="itemUpload" show='itemModalShown'>
+      <form role="form">
+        <h1>Enter item information here!</h1>
+        <div class="form-group">
+          <input type="text" placeholder='Item Image Url' ng-model='itemImgUrl'>
+          <input type='text' placeholder='Item Name' ng-model='itemName'>
+          <input type="text" placeholder='Description' ng-model='itemDescription'>
+          <input type="text" placeholder='Asking Price' ng-model='ItemPrice'>
+        </div>
+      </form>
+      <div>
+        <span class="entryError">{{error}}</span>
+      </div>
+      <button class="btn btn-default" class="md-trigger" ng-click="enterItem(); toggleItemModal()">Submit</button>
+    </modal>
   </div>
 
 </div>
