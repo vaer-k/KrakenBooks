@@ -4,7 +4,7 @@ var user = require('mongoose').model('user');
 
 module.exports = function(){
   passport.use(new localStrategy(function(username, password, done){
-    //findOne is the function that finds the user
+    //findOne is built into mongoos. User is the schema created in mongo
     User.findOne({username:username}, function(err, user){
       if(err){
         return done(err);
