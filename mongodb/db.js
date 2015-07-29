@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var debug = require('debug')('db');
+
 var db = mongoose.connect('mongodb://admin:admin@ds037272.mongolab.com:37272/mavdb1');
 
 // Start connection and confirm with log
