@@ -5,9 +5,11 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var cors = require('cors');
+/* SCRAP
 var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
 var exphbs  = require('express-handlebars');
+*/
 
 // var routes = require('./routes/index');
 var bookDetail = require('./routes/bookDetail');
