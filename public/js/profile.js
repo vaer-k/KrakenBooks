@@ -17,36 +17,41 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
     $scope.enterBook = function(title, url, author, isbn, price, files) {
       $scope.upload(files);
       if (title && url && author && isbn) {
-        $scope.error = false;
-      if (isbn.charAt(3) === '-') {
-        isbn = isbn.slice(0, 3) + isbn.slice(4);
-        console.log(isbn);
-      }
+          $scope.error = false;
+        if (isbn.charAt(3) === '-') {
+          isbn = isbn.slice(0, 3) + isbn.slice(4);
+          console.log(isbn);
+        }
 
-      if (price.charAt(0) === '$') {
-        price = price.slice(1);
-        console.log(price);
-      }
+        if (price.charAt(0) === '$') {
+          price = price.slice(1);
+          console.log(price);
+        }
 
-      fireBase.enterBook(currentOrg, currentUser.$id, title, url, author, isbn, price);
-      console.log('successfully entered');
-    } else {
-      $scope.error = "*You must fill out all required fields";
+        fireBase.enterBook(currentOrg, currentUser.$id, title, url, author, isbn, price);
+        console.log('successfully entered');
+      } else {
+        $scope.error = "*You must fill out all required fields";
+      }
+    };
+
+    $scope.enterItem = function() {
+      console.log('Entered Item! But not really.')
+    };
+
+    $scope.deleteBook = function(book) {
+      console.log(book);
+      fireBase.deleteBook($scope.org, $scope.username, book.$id);
+    };
+    $scope.username = auth.getUser().$id;
+    $scope.org = auth.getOrg();
+    $scope.noBooks = false;
+    $scope.books = fireBase.getUserBookshelf($scope.org, $scope.username);
+
+    if($scope.books.length === 0) {
+      noBooks = true;
     }
-  };
 
-  $scope.deleteBook = function(book) {
-    console.log(book);
-    fireBase.deleteBook($scope.org, $scope.username, book.$id);
-  };
-  $scope.username = auth.getUser().$id;
-  $scope.org = auth.getOrg();
-  $scope.noBooks = false;
-  $scope.books = fireBase.getUserBookshelf($scope.org, $scope.username);
-
-  if($scope.books.length === 0) {
-    noBooks = true;
-  }
 
   // modal methods
   $scope.animationsEnabled = true;
@@ -60,6 +65,11 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
     if(!$scope.error) {
       $scope.editModalShown = !$scope.editModalShown;
       $scope.bookEdit = book;
+    }
+  };
+  $scope.toggleItemModal = function() {
+    if(!$scope.error) {
+      $scope.itemModalShown = !$scope.itemModalShown;
     }
   };
 
