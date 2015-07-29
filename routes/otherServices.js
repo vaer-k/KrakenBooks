@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
 router.post('/enterItem', function(req, res, next) {
 
 });

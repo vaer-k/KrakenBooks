@@ -3,7 +3,6 @@ var router = express.Router();
 var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
 
-/* GET home page. */
 router.post('/', function(req, res, next) {
 
   var data = req.body;
@@ -58,7 +57,7 @@ router.post('/', function(req, res, next) {
       res.send("sent");
     }
   });
-  
+
 });
 
 module.exports = router;
