@@ -10,10 +10,17 @@ var Schema = mongoose.Schema;
 
 // User
 var userSchema = new Schema({
-  firstN: String,
-  lastN: String,
-  username: String, 
-  password: String
+   name: String,
+   email: String,
+   username: {
+       type: String,
+       trim: true,
+       unique: true
+   },
+   password: String,
+   provider: String,
+   providerId: String,
+   providerData: {},
 });
 
 // Book
@@ -26,6 +33,12 @@ var bookSchema = new Schema({
   askingPrice: { type: 'Number', required: true }
 });
 
+var otherSchema = new Schema({
+  itemName: { type: 'String', required: true },
+  descroption: { type: 'String', required: true },
+  askingPrice: { type: 'Number', required: true },
+})
+
 // School
 var schoolSchema = new Schema({
   name: String,
@@ -36,6 +49,7 @@ var schoolSchema = new Schema({
 var Book = mongoose.model('book', bookSchema);
 var User = mongoose.model('user', userSchema);
 var School = mongoose.model('school', schoolSchema);
+var Other = mongoose.model('other', otherSchema);
 
 // Test data
 var bookinfo = {
