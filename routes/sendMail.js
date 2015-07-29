@@ -19,11 +19,10 @@ router.post('/', function(req, res, next) {
     */
     template: 'email_body',
     context: {
-      // variable1 : 'value1',
-      // variable2: 'value2'
       bookTitle: data.info.bookTitle,
       offerAmt: data.info.offerAmt,
-      bookAskingPrice: data.info.bookAskingPrice
+      bookAskingPrice: data.info.bookAskingPrice,
+      bookImage: data.info.bookImage
     }
   };
   console.log(mailOptions);
