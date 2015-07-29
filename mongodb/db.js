@@ -1,20 +1,66 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connect('mongodb://admin:admin@ds037272.mongolab.com:37272/mavdb1');
 
-var userSchema = mongoose.schema({ name: String });
-userSchema.methods.auth = function() {
-  // do auth stuff
-};
-var User = mongoose.model('User', userSchema);
+// Start connection and confirm with log
+mongoose.connection.on("open", function(){
+  console.log("Connected to MongoDB")
+})
 
-/* SCRAP example of new user instantiation, insertion, and subsequent search
+var Schema = mongoose.Schema;
 
-var vincent = new User({ name: 'Vincent'});
-vincent.save(function (err, vincent) {
-  if (err) return console.error(err);
-  vincent.auth();
+// User
+var userSchema = new Schema({
+  firstN: String,
+  lastN: String,
+  username: String, 
+  password: String
 });
 
-User.find({ name: /^Vincent/ }, callback);
+// Book
+var bookSchema = new Schema({
+  title:  { type: 'String', required: true },
+  author: { type: 'String', required: true },
+  img:   String,
+  isbn: { type: 'String', required: true },
+  // createdBy: { ref: 'username'}, NEED TO FIGURE OUT RELATIONSHIP REFERENCE
+  askingPrice: { type: 'Number', required: true }
+});
 
-*/
+// School
+var schoolSchema = new Schema({
+  name: String,
+  location: String,
+})
+
+// Models for each collection
+var Book = mongoose.model('book', bookSchema);
+var User = mongoose.model('user', userSchema);
+var School = mongoose.model('school', schoolSchema);
+
+// Test data
+var bookinfo = {
+  title: "Jim",
+  author: "Jim's Friend Bob",
+  img: 'this is all kinds of cool stuff',
+  isbn: '1238jdj8d',
+  askingPrice: 32
+}
+
+// Functions go here
+module.exports = {
+  find: function(){
+    Book.find({}, function(err, book){
+      if (err) { console.log("Error:", err) } else {
+      console.log("Books:", book);
+      }
+    })
+  },
+  add: function(item){
+    var book1 = new Book(bookinfo).save;
+    book1.save(function(err, data){
+      if(err){ console.log("Error:", err) } else {
+        console.log("Success: ", data)
+      }
+    })
+  }
+};
