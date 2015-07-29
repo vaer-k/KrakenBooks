@@ -4,9 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var passport_file = require('js/passport.js');
 var flash = require('connect-flash');
 var cors = require('cors');
+var session = require('express-session')
 /* SCRAP
 var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
@@ -41,13 +41,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // add ins for auth
-app.use(express.cookieParser('keyboard cat'));
-app.use(express.bodyParser());
-app.use(express.session({ cookie: { maxAge: 6000 }}));  
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(app.router);
+app.use(session({
+  saveUninitialized: true,
+  resave: true,
+  secret: "OurSuperSecret"
+}));
 
 
 app.use('/bookDetail', bookDetail);
