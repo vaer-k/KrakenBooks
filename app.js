@@ -14,6 +14,8 @@ var exphbs  = require('express-handlebars');
 // var routes = require('./routes/index');
 var bookDetail = require('./routes/bookDetail');
 var sendMail = require('./routes/sendMail');
+var bookServices = require('./routes/bookServices')
+var otherServices = require('./routes/otherServices')
 
 var app = express();
 
@@ -28,6 +30,8 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // app.use('/', routes);
 app.use('/bookDetail', bookDetail);
 app.use('/sendMail', sendMail);
+app.use('/bookServices', bookServices);
+app.use('/otherServices', otherServices); // handles 'other' items
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
