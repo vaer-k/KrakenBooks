@@ -127,7 +127,7 @@ angular.module('omnibooks')
       auth.login($scope.authInfo, moveToMarket, showError);
     };
     $scope.facebookLogin = function() {
-      auth.facebookLogin();
+      auth.facebookLogin(moveToMarket, showError);
     };
     $scope.signup = function() {
       auth.signup($scope.authInfo, moveToMarket, showError);
