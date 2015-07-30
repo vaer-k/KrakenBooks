@@ -20,7 +20,16 @@ angular.module('omnibooks.market', ['ngFx','ngAnimate'])
           itemId: book.$id
         });
       };
+
+      $scope.findItemDetail = function(item) {
+        $stateParams.itemId = item.$id;
+        $state.go("books", {
+          itemId: item.$id
+        });
+      };
+
       var currentOrg = auth.getOrg();
       $scope.books = fireBase.getOrgBook(currentOrg);
+      $scope.items = fireBase.getOrgItems(currentOrg);
     }
   ]);
