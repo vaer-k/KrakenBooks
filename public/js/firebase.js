@@ -156,6 +156,7 @@ angular.module('omnibooks.database', ['firebase'])
       myDataRef.authWithOAuthPopup("facebook", function(error, authData) {
         if (error) {
           console.log("Login Failed!", error);
+          failed();
         } else {
           // TODO do something with authData
           console.log("Authenticated successfully with payload:", authData);
