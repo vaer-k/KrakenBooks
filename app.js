@@ -30,7 +30,6 @@ var login = require('./routes/login');
 // Search routes
 var bookDetail = require('./routes/bookDetail');
 var bookInfo = require('./routes/bookInfo');
-// **************************************************
 
 // **************** AUTH configure ******************
 // TODO write findById to pull user from db by ID
@@ -64,8 +63,8 @@ passport.use(new LocalStrategy(
     });
   }
 ));
-// **************************************************
 
+// ***************** APP configure ******************
 var app = express();
 
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -91,7 +90,7 @@ app.use('/sendMail', sendMail);
 app.use('/userServices', userServices);
 app.use('/login', login);
 
-// ********************* AUTH ***********************
+// ********************* AUTH route *****************
 var authenticate = function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err); }
@@ -113,10 +112,8 @@ app.post('/signup', function(req, res, next) {
 app.get('/logout', function(req, res) {
   req.logout();
 });
-// **************************************************
 
-
-// catch 404 and forward to error handler
+// catch 404
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
