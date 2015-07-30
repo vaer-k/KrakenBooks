@@ -52,7 +52,8 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
           itemPrice = itemPrice.slice(1);
         }
 
-        fireBase.enterBook(currentOrg, currentUser.$id, itemName, itemImgUrl, itemDescription, '0812550706', itemPrice);
+        // fireBase.enterBook(currentOrg, currentUser.$id, itemName, itemImgUrl, itemDescription, '0812550706', itemPrice);
+        fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice);
         console.log('successfully entered');
       } else{
         $scope.error = "*You must fill out all required fields";
