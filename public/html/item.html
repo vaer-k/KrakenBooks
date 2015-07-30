@@ -4,12 +4,12 @@
   </div>
   <div id='itemMiddle'>
     <div class="b-title"> {{item.name}} </div>
-    <div class="m-title">by {{item.bookDetails.author}} (Author)</div>
+    <div class="m-title">{{item.bookDetails.title}}</div>
+    <div class="m-title">{{item.bookDetails.author}}</div>
     <div class="s-title" ng-repeat="price in prices">
       <span class="bookstore">{{price.store_id}}</span>
       <span class="bookprice">${{price.price}}</span>
     </div>
-    <!-- <p>Seller's asking price: {{ book.askingPrice | currency }}</p> -->
     <p>Seller's asking price: {{ item.askingPrice | currency }}</p>
     <p>Seller's Description: {{ item.description }}</p>
   </div>

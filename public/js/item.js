@@ -13,6 +13,9 @@ angular.module('omnibooks.item', [])
       // });
       $scope.item = fireBase.getUserItem(currentOrg, currentUser.$id, $scope.itemId, function(data) {
         console.log(data);
+        if (data.bookDetails){
+          bookAPI.getDetail(data.bookDetails.isbn, displayDetail);
+        }
       });
 
       $scope.modalShown = false;

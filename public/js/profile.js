@@ -53,24 +53,27 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
           itemPrice = itemPrice.slice(1);
         }
 
-        function enterBookItem (res) {
-          var bookDetails = {
-            title: res[0].title_long,
-            author: res[0].author_data[0].name,
-            isbn: isbn
-          };
-
-          fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
-          console.log('successfully entered book item');
-        };
 
         // If a book, send in ISBN to get the rest of the book info and then enter to db
         if(isbn){
+
+          function enterBookItem (res) {
+            var bookDetails = {
+              title: res[0].title_long,
+              author: res[0].author_data[0].name,
+              isbn: isbn
+            };
+
+            fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
+            console.log('successfully entered book item');
+          };
+
           bookinfoAPI.getInfo(isbn, enterBookItem);
         } else {
         //Otherwise, just enter item into database without book info
-          fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice);
-          console.log('successfully entered');
+          bookDetails = {};
+          fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
+          console.log('successfully entered nonbook item');
         }
 
       } else{
