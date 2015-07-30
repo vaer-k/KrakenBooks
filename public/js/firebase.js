@@ -188,6 +188,7 @@ angular.module('omnibooks.database', ['firebase'])
       getUserInfo: getUserInfo,
       createUser: createUser,
       authWithPassword: authWithPassword,
+      authWithFacebook: authWithFacebook,
       getUserOrg: getUserOrg,
       getUserEmail: getUserEmail,
       autoLogin: autoLogin,
