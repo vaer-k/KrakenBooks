@@ -18,6 +18,20 @@ angular.module('omnibooks.database', ['firebase'])
       myDataRef.child(org).child('users').child(username).child('bookshelf').child(bookID).set(bookDetails);
     };
 
+    var enterItem = function(org, user, itemImgUrl, itemName, itemDescription, itemPrice){
+      var itemDetails = {
+        img: itemImgUrl,
+        name: itemName,
+        description: itemDescription,
+        createdBy: user,
+        askingPrice: itemPrice
+      };
+
+      var newItemRef = myDataRef.child(org).child('items').push(itemDetails);
+      var itemID = newItemRef.key();
+      myDataRef.child(org).child('users').child(user).child('itemshelf').child(itemID).set(itemDetails);
+    };
+
     var deleteBook = function(org, user, bookId) {
       myDataRef.child(org).child('users').child(user).child('bookshelf').child(bookId).remove();
       myDataRef.child(org).child('books').child(bookId).remove();
@@ -47,6 +61,11 @@ angular.module('omnibooks.database', ['firebase'])
     // returns array of all books belonging to a user
     var getUserBookshelf = function(org, username) {
       var ref = myDataRef.child(org).child('users').child(username).child('bookshelf');
+      return $firebaseArray(ref);
+    };
+
+    var getUserItems = function(org, username) {
+      var ref = myDataRef.child(org).child('users').child(username).child('itemshelf');
       return $firebaseArray(ref);
     };
 
@@ -146,11 +165,13 @@ angular.module('omnibooks.database', ['firebase'])
 
     return {
       enterBook: enterBook,
+      enterItem: enterItem,
       deleteBook: deleteBook,
       updateBook: updateBook,
       getOrgBook: getOrgBook,
       getUserBook: getUserBook,
       getUserBookshelf: getUserBookshelf,
+      getUserItems: getUserItems,
       getUserInfo: getUserInfo,
       createUser: createUser,
       authWithPassword: authWithPassword,
