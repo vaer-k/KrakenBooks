@@ -29,7 +29,6 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
           author = res[0].author_data[0].name;
 
         fireBase.enterBook(currentOrg, currentUser.$id, title, url, author, isbn, price);
-        console.log('successfully entered');
            
         };
 
