@@ -37,7 +37,7 @@
       <li class='bookitem'>
         <a ng-click="toggleItemModal()" class="link">
         <img src="../images/book.jpg ">
-        <p class="booktitle">  Sell Something Else </p>
+        <p class="booktitle">  Sell Something </p>
         </a>
       </li>
 
@@ -98,16 +98,17 @@
       <form role="form">
         <h1>Enter item information here!</h1>
         <div class="form-group">
-          <input type="text" placeholder='Item Image Url' ng-model='itemImgUrl'>
           <input type='text' placeholder='Item Name' ng-model='itemName'>
           <input type="text" placeholder='Description' ng-model='itemDescription'>
+          <input type="text" placeholder='Item Image Url' ng-model='itemImgUrl'>
+          <input type="text" placeholder='ISBN (if book)' ng-model='isbn'>
           <input type="text" placeholder='Asking Price' ng-model='itemPrice'>
         </div>
       </form>
       <div>
         <span class="entryError">{{error}}</span>
       </div>
-      <button class="btn btn-default" class="md-trigger" ng-click="enterItem(itemImgUrl,itemName,itemDescription,itemPrice); toggleItemModal()">Submit</button>
+      <button class="btn btn-default" class="md-trigger" ng-click="enterItem(itemImgUrl,itemName,itemDescription,itemPrice, isbn); toggleItemModal()">Submit</button>
     </modal>
   </div>
 

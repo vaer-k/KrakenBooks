@@ -18,13 +18,14 @@ angular.module('omnibooks.database', ['firebase'])
       myDataRef.child(org).child('users').child(username).child('bookshelf').child(bookID).set(bookDetails);
     };
 
-    var enterItem = function(org, user, itemImgUrl, itemName, itemDescription, itemPrice){
+    var enterItem = function(org, user, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails){
       var itemDetails = {
         img: itemImgUrl,
         name: itemName,
         description: itemDescription,
         createdBy: user,
-        askingPrice: itemPrice
+        askingPrice: itemPrice,
+        bookDetails: bookDetails
       };
 
       var newItemRef = myDataRef.child(org).child('items').push(itemDetails);
