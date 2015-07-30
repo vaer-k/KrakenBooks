@@ -95,7 +95,9 @@ var authenticate = function(req, res, next) {
   })(req, res, next);
 };
 
-app.post('/login', authenticate(req, res, next));
+app.post('/login', function(req, res, next) {
+  authenticate(req, res, next);
+});
 
 app.post('/signup', function(req, res, next) {
   // TODO createUser();
