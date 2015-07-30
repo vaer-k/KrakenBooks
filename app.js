@@ -35,7 +35,7 @@ var findByUsername = function() {};
 var createUser = function() {};
 
 // Passport session setup
-passport.deserializeUser(function(user, done) {
+passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 passport.deserializeUser(function(id, done) {
@@ -83,7 +83,6 @@ app.use('/bookDetail', bookDetail);
 app.use('/bookInfo', bookInfo);
 app.use('/sendMail', sendMail);
 app.use('/userServices', userServices);
-app.use('/login', login);
 
 // ********************* AUTH route *****************
 var authenticate = function(req, res, next) {
