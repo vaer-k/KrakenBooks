@@ -35,7 +35,7 @@ var findByUsername = function() {};
 var createUser = function() {};
 
 // Passport session setup
-passport.deserializeUser(function(user, done) {
+passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 passport.deserializeUser(function(id, done) {
@@ -68,7 +68,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 // add ins for auth
@@ -83,7 +82,6 @@ app.use('/bookDetail', bookDetail);
 app.use('/bookInfo', bookInfo);
 app.use('/sendMail', sendMail);
 app.use('/userServices', userServices);
-app.use('/login', login);
 
 // ********************* AUTH route *****************
 var authenticate = function(req, res, next) {
