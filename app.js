@@ -27,7 +27,7 @@ var login = require('./routes/login');
 
 // Search routes
 var bookDetail = require('./routes/bookDetail');
-
+var bookInfo = require('./routes/bookInfo');
 // **************************************************
 
 
@@ -52,6 +52,7 @@ app.use(session({
 
 
 app.use('/bookDetail', bookDetail);
+app.use('/bookInfo', bookInfo);
 app.use('/sendMail', sendMail);
 app.use('/bookServices', bookServices);
 app.use('/otherServices', otherServices); // handles 'other' items
