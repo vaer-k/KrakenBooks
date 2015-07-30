@@ -72,7 +72,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(app.router);
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
+
 // add ins for auth
 app.use(passport.initialize());
 app.use(passport.session());
@@ -90,6 +92,20 @@ app.use('/userServices', userServices);
 app.use('/login', login);
 
 // ********************* AUTH ***********************
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { req.flash('error', info.message); }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.redirect('/market' + user.username);
+    });
+  })(req, res, next);
+});
+
+app.get('/logout', function(req, res) {
+  req.logout();
+});
 // **************************************************
 
 
