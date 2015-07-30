@@ -134,6 +134,19 @@ angular.module('omnibooks.database', ['firebase'])
       });
     };
 
+    //for facebook login
+    var authWithFacebook = function(success, failed){
+      myDataRef.authWithOAuthPopup("facebook", function(error, authData) {
+        if (error) {
+          console.log("Login Failed!", error);
+        } else {
+          // TODO do something with authData
+          console.log("Authenticated successfully with payload:", authData);
+          success(authData);
+        }
+      });
+    };
+
     // auto login
     var autoLogin = function (callback) {
       var authData = myDataRef.getAuth();
