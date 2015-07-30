@@ -17,15 +17,10 @@ var exphbs  = require('express-handlebars');
 
 // ****************** ROUTES ************************
 // MongoDB routes
-var bookServices = require('./routes/bookServices');
-var otherServices = require('./routes/otherServices');
 var userServices = require('./routes/userServices');
 
 // Mail routes
 var sendMail = require('./routes/sendMail');
-
-// Authentication routes
-var login = require('./routes/login');
 
 // Search routes
 var bookDetail = require('./routes/bookDetail');
