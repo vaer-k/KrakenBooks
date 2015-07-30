@@ -37,6 +37,8 @@ var bookInfo = require('./routes/bookInfo');
 var findById = function() {};
 // TODO write findByUsername to access db and check if user exists with pw
 var findByUsername = function() {};
+// TODO write createUser to add a user to db with newly hashed pw
+var createUser = function() {};
 
 // Passport session setup
 passport.deserializeUser(function(user, done) {
@@ -86,13 +88,11 @@ app.use(session({
 app.use('/bookDetail', bookDetail);
 app.use('/bookInfo', bookInfo);
 app.use('/sendMail', sendMail);
-app.use('/bookServices', bookServices);
-app.use('/otherServices', otherServices); // handles 'other' items
 app.use('/userServices', userServices);
 app.use('/login', login);
 
 // ********************* AUTH ***********************
-app.post('/login', function(req, res, next) {
+var authenticate = function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err); }
     if (!user) { req.flash('error', info.message); }
@@ -101,6 +101,13 @@ app.post('/login', function(req, res, next) {
       return res.redirect('/market' + user.username);
     });
   })(req, res, next);
+};
+
+app.post('/login', authenticate(req, res, next));
+
+app.post('/signup', function(req, res, next) {
+  // TODO createUser();
+  authenticate(req, res);
 });
 
 app.get('/logout', function(req, res) {
