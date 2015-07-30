@@ -52,7 +52,8 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
           itemPrice = itemPrice.slice(1);
         }
 
-        fireBase.enterBook(currentOrg, currentUser.$id, itemName, itemImgUrl, itemDescription, '0812550706', itemPrice);
+        // fireBase.enterBook(currentOrg, currentUser.$id, itemName, itemImgUrl, itemDescription, '0812550706', itemPrice);
+        fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice);
         console.log('successfully entered');
       } else{
         $scope.error = "*You must fill out all required fields";
@@ -63,10 +64,12 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
       console.log(book);
       fireBase.deleteBook($scope.org, $scope.username, book.$id);
     };
+
     $scope.username = auth.getUser().$id;
     $scope.org = auth.getOrg();
     $scope.noBooks = false;
     $scope.books = fireBase.getUserBookshelf($scope.org, $scope.username);
+    $scope.items = fireBase.getUserItems($scope.org, $scope.username);
 
 
     if($scope.books.length === 0) {

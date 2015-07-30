@@ -17,20 +17,14 @@ var exphbs  = require('express-handlebars');
 
 // ****************** ROUTES ************************
 // MongoDB routes
-var bookServices = require('./routes/bookServices');
-var otherServices = require('./routes/otherServices');
 var userServices = require('./routes/userServices');
 
 // Mail routes
 var sendMail = require('./routes/sendMail');
 
-// Authentication routes
-var login = require('./routes/login');
-
 // Search routes
 var bookDetail = require('./routes/bookDetail');
 var bookInfo = require('./routes/bookInfo');
-// **************************************************
 
 // **************** AUTH configure ******************
 // TODO write findById to pull user from db by ID
@@ -41,7 +35,7 @@ var findByUsername = function() {};
 var createUser = function() {};
 
 // Passport session setup
-passport.deserializeUser(function(user, done) {
+passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 passport.deserializeUser(function(id, done) {
@@ -64,8 +58,8 @@ passport.use(new LocalStrategy(
     });
   }
 ));
-// **************************************************
 
+// ***************** APP configure ******************
 var app = express();
 
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -74,7 +68,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 // add ins for auth
@@ -89,9 +82,8 @@ app.use('/bookDetail', bookDetail);
 app.use('/bookInfo', bookInfo);
 app.use('/sendMail', sendMail);
 app.use('/userServices', userServices);
-app.use('/login', login);
 
-// ********************* AUTH ***********************
+// ********************* AUTH route *****************
 var authenticate = function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err); }
@@ -103,7 +95,9 @@ var authenticate = function(req, res, next) {
   })(req, res, next);
 };
 
-app.post('/login', authenticate(req, res, next));
+app.post('/login', function(req, res, next) {
+  authenticate(req, res, next);
+});
 
 app.post('/signup', function(req, res, next) {
   // TODO createUser();
@@ -113,10 +107,8 @@ app.post('/signup', function(req, res, next) {
 app.get('/logout', function(req, res) {
   req.logout();
 });
-// **************************************************
 
-
-// catch 404 and forward to error handler
+// catch 404
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
