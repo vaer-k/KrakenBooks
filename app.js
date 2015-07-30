@@ -68,7 +68,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 // add ins for auth
