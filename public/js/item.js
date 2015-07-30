@@ -8,8 +8,14 @@ angular.module('omnibooks.item', [])
         $scope.prices = res.data.data;
       };
       $scope.itemId = $stateParams.itemId;
-      $scope.book = fireBase.getUserBook(currentOrg, currentUser.$id, $scope.itemId, function(data) {
-        bookAPI.getDetail(data.isbn, displayDetail);
+      // $scope.book = fireBase.getUserBook(currentOrg, currentUser.$id, $scope.itemId, function(data) {
+      //   bookAPI.getDetail(data.isbn, displayDetail);
+      // });
+      $scope.item = fireBase.getUserItem(currentOrg, currentUser.$id, $scope.itemId, function(data) {
+        console.log(data);
+        if (data.bookDetails){
+          bookAPI.getDetail(data.bookDetails.isbn, displayDetail);
+        }
       });
 
       $scope.modalShown = false;

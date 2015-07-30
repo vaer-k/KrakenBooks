@@ -45,16 +45,37 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
   };
 
 
-    $scope.enterItem = function(itemImgUrl, itemName, itemDescription, itemPrice) {
+    $scope.enterItem = function(itemImgUrl, itemName, itemDescription, itemPrice, isbn) {
       if (itemName && itemImgUrl && itemDescription) {
         $scope.error = false;
+
         if (itemPrice.charAt(0) === '$') {
           itemPrice = itemPrice.slice(1);
         }
 
-        // fireBase.enterBook(currentOrg, currentUser.$id, itemName, itemImgUrl, itemDescription, '0812550706', itemPrice);
-        fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice);
-        console.log('successfully entered');
+
+        // If a book, send in ISBN to get the rest of the book info and then enter to db
+        if(isbn){
+
+          function enterBookItem (res) {
+            var bookDetails = {
+              title: res[0].title_long,
+              author: res[0].author_data[0].name,
+              isbn: isbn
+            };
+
+            fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
+            console.log('successfully entered book item');
+          };
+
+          bookinfoAPI.getInfo(isbn, enterBookItem);
+        } else {
+        //Otherwise, just enter item into database without book info
+          bookDetails = {};
+          fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
+          console.log('successfully entered nonbook item');
+        }
+
       } else{
         $scope.error = "*You must fill out all required fields";
       }

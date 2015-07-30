@@ -1,15 +1,17 @@
 <div class='padding'>
   <div id='itemLeft'>
-    <img src={{book.img}}>
+    <img src={{item.img}}>
   </div>
   <div id='itemMiddle'>
-    <div class="b-title"> {{book.title}} </div>
-    <div class="m-title">by {{book.author}} (Author)</div>
+    <div class="b-title"> {{item.name}} </div>
+    <div class="m-title">{{item.bookDetails.title}}</div>
+    <div class="m-title">{{item.bookDetails.author}}</div>
     <div class="s-title" ng-repeat="price in prices">
       <span class="bookstore">{{price.store_id}}</span>
       <span class="bookprice">${{price.price}}</span>
     </div>
-    <p>Seller's asking price: {{ book.askingPrice | currency }}</p>
+    <p>Seller's asking price: {{ item.askingPrice | currency }}</p>
+    <p>Seller's Description: {{ item.description }}</p>
   </div>
 </div>
 <div>

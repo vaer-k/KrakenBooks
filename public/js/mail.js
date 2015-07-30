@@ -19,9 +19,15 @@ angular.module('omnibooks.mail', [])
         var bookTitle;
         var bookAskingPrice;
         var bookImage;
-        var bookInfo = fireBase.getUserBook(currentOrg, currentUser, $scope.itemId, function(data) {
+        // var bookInfo = fireBase.getUserBook(currentOrg, currentUser, $scope.itemId, function(data) {
+        var bookInfo = fireBase.getUserItem(currentOrg, currentUser, $scope.itemId, function(data) {
           bookOwner = data.createdBy;
-          bookTitle = data.title;
+          // bookTitle = data.title;
+          if(data.bookDetails){
+            bookTitle = data.bookDetails.title;
+          }else{
+            bookTitle = data.name;
+          }
           bookAskingPrice = data.askingPrice;
           bookImage = data.img;
         });
@@ -35,7 +41,7 @@ angular.module('omnibooks.mail', [])
         }
 
         var info = {
-          offerAmt: offerAmt,
+          offerAmt: offerAmt,//
           bookOwner: bookOwner,
           bookTitle: bookTitle,
           bookAskingPrice: bookAskingPrice,

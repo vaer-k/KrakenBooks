@@ -18,13 +18,14 @@ angular.module('omnibooks.database', ['firebase'])
       myDataRef.child(org).child('users').child(username).child('bookshelf').child(bookID).set(bookDetails);
     };
 
-    var enterItem = function(org, user, itemImgUrl, itemName, itemDescription, itemPrice){
+    var enterItem = function(org, user, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails){
       var itemDetails = {
         img: itemImgUrl,
         name: itemName,
         description: itemDescription,
         createdBy: user,
-        askingPrice: itemPrice
+        askingPrice: itemPrice,
+        bookDetails: bookDetails
       };
 
       var newItemRef = myDataRef.child(org).child('items').push(itemDetails);
@@ -48,9 +49,25 @@ angular.module('omnibooks.database', ['firebase'])
       return $firebaseArray(ref);
     };
 
+    //get all items in same org
+    var getOrgItems = function(org){
+      var ref = myDataRef.child(org).child('items');
+      return $firebaseArray(ref);
+    };
+
     //get one book from a user, return object
     var getUserBook = function(org, username, id, callback) {
       var ref = myDataRef.child(org).child('books').child(id);
+      ref.on('value', function(dataSnapshot) {
+        callback(dataSnapshot.val());
+        ref.off();
+      });
+      return $firebaseObject(ref);
+    };
+
+    //get one book from a user, return object
+    var getUserItem = function(org, username, id, callback) {
+      var ref = myDataRef.child(org).child('items').child(id);
       ref.on('value', function(dataSnapshot) {
         callback(dataSnapshot.val());
         ref.off();
@@ -182,7 +199,9 @@ angular.module('omnibooks.database', ['firebase'])
       deleteBook: deleteBook,
       updateBook: updateBook,
       getOrgBook: getOrgBook,
+      getOrgItems: getOrgItems,
       getUserBook: getUserBook,
+      getUserItem: getUserItem,
       getUserBookshelf: getUserBookshelf,
       getUserItems: getUserItems,
       getUserInfo: getUserInfo,
