@@ -51,7 +51,7 @@ angular.module('omnibooks.auth', [])
   };
 
   var facebookLogin = function(success, failed) {
-    firebase.authWithFacebook(success, failed);
+    fireBase.authWithFacebook(success, failed);
   };
 
   // check if the user is loggedin and automatically set the loggedin info
@@ -87,6 +87,7 @@ angular.module('omnibooks.auth', [])
   return {
     signup: signup,
     login: login,
+    facebookLogin: facebookLogin,
     loggedInUser: loggedInUser,
     loggedInOrg: loggedInOrg,
     isLoggedIn: isLoggedIn,
