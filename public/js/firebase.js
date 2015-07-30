@@ -64,6 +64,11 @@ angular.module('omnibooks.database', ['firebase'])
       return $firebaseArray(ref);
     };
 
+    var getUserItems = function(org, username) {
+      var ref = myDataRef.child(org).child('users').child(username).child('itemshelf');
+      return $firebaseArray(ref);
+    };
+
     //get user detail info, return object
     var getUserInfo = function(org, username) {
       return $firebaseObject(myDataRef.child(org).child('users').child(username));
@@ -166,6 +171,7 @@ angular.module('omnibooks.database', ['firebase'])
       getOrgBook: getOrgBook,
       getUserBook: getUserBook,
       getUserBookshelf: getUserBookshelf,
+      getUserItems: getUserItems,
       getUserInfo: getUserInfo,
       createUser: createUser,
       authWithPassword: authWithPassword,
