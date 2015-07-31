@@ -128,6 +128,17 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
     }
     fireBase.updateBook($scope.org, $scope.username, $scope.bookEdit.$id, update);
   }
+
+  $scope.updateItem = function() {
+    var update = {
+      name: $scope.bookEdit.name,
+      img: $scope.bookEdit.img,
+      isbn: $scope.bookEdit.description,
+      askingPrice: $scope.bookEdit.askingPrice
+    }
+    fireBase.updateItem($scope.org, $scope.username, $scope.bookEdit.$id, update);
+  };
+
 }])
 .directive('modal', function() {
   return {

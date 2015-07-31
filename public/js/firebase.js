@@ -43,6 +43,11 @@ angular.module('omnibooks.database', ['firebase'])
       myDataRef.child(org).child('books').child(id).update(bookNode);
     };
 
+    var updateItem = function(org, user, id, bookNode) {
+      myDataRef.child(org).child('users').child(user).child('itemshelf').child(id).update(bookNode);
+      myDataRef.child(org).child('items').child(id).update(bookNode);
+    };
+
     //get all books in same org
     var getOrgBook = function(org){
       var ref = myDataRef.child(org).child('books');
@@ -199,6 +204,7 @@ angular.module('omnibooks.database', ['firebase'])
       enterItem: enterItem,
       deleteBook: deleteBook,
       updateBook: updateBook,
+      updateItem: updateItem,
       getOrgBook: getOrgBook,
       getOrgItems: getOrgItems,
       getUserBook: getUserBook,
