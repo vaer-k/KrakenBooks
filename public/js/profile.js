@@ -46,7 +46,7 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
 
 
     $scope.enterItem = function(itemImgUrl, itemName, itemDescription, itemPrice, isbn) {
-      if (itemName && itemImgUrl && itemDescription) {
+      if (itemName && itemDescription) {
         $scope.error = false;
 
         if (itemPrice.charAt(0) === '$') {
@@ -70,10 +70,22 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
           bookinfoAPI.getInfo(isbn, enterBookItem);
         } else {
         //Otherwise, just enter item into database without book info
-          productImg.getInfo();
-          bookDetails = {};
-          fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
-          console.log('successfully entered nonbook item');
+         function enterAnyItem (res) {
+            // var bookDetails = {
+            //   title: res[0].title_long,
+            //   author: res[0].author_data[0].name,
+            //   isbn: isbn
+            // };
+            if (!itemImgUrl){
+              itemImgUrl = res.Img;
+            }
+            bookDetails = {};
+            fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
+            console.log('successfully entered book item');
+          };
+          productImg.getInfo(itemName, enterAnyItem);
+          // fireBase.enterItem(currentOrg, currentUser.$id, itemImgUrl, itemName, itemDescription, itemPrice, bookDetails);
+          // console.log('successfully entered nonbook item');
         }
 
 
@@ -181,14 +193,14 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
     };
 })
 .factory('productImg', function($http) {
-    var getInfo = function(searchindex, keywords) {
-      console.log()
+    var getInfo = function(itemName, callback) { // todo
+      // console.log()
       return $http({
           method: 'GET',
-          url: '/productImg',//
+          url: '/productImg',
           params: {
-            'SearchIndex': "Electronics",
-            'Keywords': "Apple MacBook Air MJVE2LL/A 13.3-Inch Laptop (128 GB) NEWEST VERSION"
+            'SearchIndex': "All",
+            'Keywords': itemName // todo
           }
         })
         .then(function(res) {
@@ -196,9 +208,18 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
           console.log('productInfo res',res)
           console.log('Title',     res.data.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0]);
           console.log('ListPrice', res.data.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ListPrice[0].FormattedPrice[0]);
-          console.log('UPC',       res.data.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].UPC[0]);
+          // console.log('UPC',       res.data.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].UPC[0]);
           console.log('URL',       res.data.ItemSearchResponse.Items[0].Item[0].ItemLinks[0].ItemLink[0].URL[0]);
           console.log('Img',       res.data.ItemSearchResponse.Items[0].Item[0].LargeImage[0].URL[0]);
+
+          var retdata = {
+            Title:     res.data.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
+            ListPrice: res.data.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ListPrice[0].FormattedPrice[0],
+            // UPC:       res.data.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].UPC[0]),
+            URL:       res.data.ItemSearchResponse.Items[0].Item[0].ItemLinks[0].ItemLink[0].URL[0],
+            Img:       res.data.ItemSearchResponse.Items[0].Item[0].LargeImage[0].URL[0]
+          } ;
+          callback(retdata);
         });
     };
     return {
