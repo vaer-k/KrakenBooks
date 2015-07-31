@@ -5,12 +5,14 @@ angular.module('omnibooks.auth', [])
 
   // success, failed are callbacks
   var signup = function(authInfo, success, failed) {
+    console.log("Within auth-signup: ", authInfo)
     // check the user-org object to see the username is available
     var userOrg = fireBase.getUserOrg();
     userOrg.$loaded().then(function() {
       var org = userOrg[authInfo.name];
       if (org) {
         console.log('user already exists');
+        login(authInfo, success, failed);
         failed('The username is already registered. Try another name.');
         return;
       }
@@ -50,8 +52,8 @@ angular.module('omnibooks.auth', [])
     });
   };
 
-  var facebookLogin = function(success, failed) {
-    fireBase.authWithFacebook(success, failed);
+  var facebookLogin = function(addtoDB, success, failed) {
+    fireBase.authWithFacebook(addtoDB, success, failed);
   };
 
   // check if the user is loggedin and automatically set the loggedin info
@@ -128,7 +130,7 @@ angular.module('omnibooks')
       auth.login($scope.authInfo, moveToMarket, showError);
     };
     $scope.facebookLogin = function() {
-      auth.facebookLogin(moveToMarket, showError);
+      auth.facebookLogin(addtoDB, moveToMarket, showError);
     };
     $scope.signup = function() {
       auth.signup($scope.authInfo, moveToMarket, showError);
@@ -139,6 +141,17 @@ angular.module('omnibooks')
       hideError();
       resetUserInfo();
     };
+
+    function addtoDB(authInfo){
+      var first = authInfo.facebook.cachedUserProfile.first_name;
+      var last = authInfo.facebook.cachedUserProfile.last_name;
+      $scope.authInfo.name = first + " " + last
+      $scope.authInfo.org = "Berkeley"
+      $scope.authInfo.email = "test@test.com"
+      $scope.authInfo.password = 'test'
+      console.log(authInfo)      
+      $scope.signup(authInfo)
+    }
 
     function moveToMarket() {
       $scope.closeAuthForm();

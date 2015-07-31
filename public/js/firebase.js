@@ -109,6 +109,7 @@ angular.module('omnibooks.database', ['firebase'])
 
     //for signup
     var createUser = function(authInfo, success, failed) {
+      console.log("Within createuser ", authInfo)
       myDataRef.createUser(authInfo, function(err, userData) {
         if (err) {
           failed('the email address is already registered.');
@@ -117,7 +118,7 @@ angular.module('omnibooks.database', ['firebase'])
         var users = myDataRef.child(authInfo.org).child('users');
         users.child(authInfo.name).set({
           userDetail: {
-            email: authInfo.email
+            email: authInfo.email || "jim@jim.com"
           }
         });
         // save to the userOrg
@@ -158,13 +159,14 @@ angular.module('omnibooks.database', ['firebase'])
     };
 
     //for facebook login
-    var authWithFacebook = function(success, failed){
+    var authWithFacebook = function(addtoDB, success, failed){
       myDataRef.authWithOAuthPopup("facebook", function(error, authData) {
         if (error) {
           console.log("Login Failed!", error);
           failed();
         } else {
           // TODO do something with authData
+          addtoDB(authData);
           console.log("Authenticated successfully with payload:", authData);
           success(authData);
         }
@@ -179,7 +181,7 @@ angular.module('omnibooks.database', ['firebase'])
       }
       // if the user is logged in, set the user data in auth service using callback
       var uid = authData.uid;
-      var email = authData.password.email;
+      var email =  "jim@jim.com"
       var allUsers = $firebaseObject(myDataRef.child('allUsers'));
       allUsers.$loaded().then(function () {
         var user = allUsers[uid];
