@@ -181,8 +181,8 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
     };
 })
 .factory('productImg', function($http) {
-    var getInfo = function(searchindex, keywords) {
-      console.log()
+    var getInfo = function() {
+      // console.log()
       return $http({
           method: 'GET',
           url: '/productImg',//
