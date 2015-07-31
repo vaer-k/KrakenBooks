@@ -1,6 +1,11 @@
 <div class='padding'>
   <div id='itemLeft'>
     <img src={{item.img}}>
+    <!-- Amazon Info -->
+    <h3>{{item.awsInfo.Title}}</h3>
+    <a ng-href="{{item.awsInfo.URL}}">Compare on Amazon</a>
+    <span>Price on Amazon: {{item.awsInfo.ListPrice}}</span>
+    <!-- End Amazon Info -->
   </div>
   <div id='itemMiddle'>
     <div class="b-title"> {{item.name}} </div>
