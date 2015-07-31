@@ -20,6 +20,7 @@
   "dependencies": {
     "angular": "^1.4.3",
     "bcrypt-nodejs": "0.0.3",
+    "apac": "^1.0.0",
     "body-parser": "^1.13.2",
     "bower": "^1.4.1",
     "connect-flash": "^0.1.1",
