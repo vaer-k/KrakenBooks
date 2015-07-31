@@ -4,4 +4,5 @@ module.exports = {
   // callbackURL: 'http://localhost:'+ port +'/oauth/facebook/callback',
   awsId:     'INSERT ACCESS KEY ID',
   awsSecret: 'INSERT SECRET'
+
 };
