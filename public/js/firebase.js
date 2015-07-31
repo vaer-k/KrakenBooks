@@ -35,7 +35,7 @@ angular.module('omnibooks.database', ['firebase'])
     };
 
     var deleteBook = function(org, user, bookId) {
-      myDataRef.child(org).child('users').child(user).child('bookshelf').child(bookId).remove();
+      myDataRef.child(org).child('users').child(user).child('itemshelf').child(bookId).remove();
       myDataRef.child(org).child('books').child(bookId).remove();
     };
 
