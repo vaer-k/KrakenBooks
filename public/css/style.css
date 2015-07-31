@@ -32,6 +32,12 @@ header{
   z-index: 500;
 }
 
+button {
+  /*COLORSCHEME*/
+  /*background-color:rgb(125, 220, 107);*/
+  background-color:#7DB872;
+}
+
 header button{
   float: right;
   margin: 15px 15px 15px 15px;
@@ -50,7 +56,8 @@ header button{
 #navigation li a {
   display:block;
   margin: 20px;
-  color:rgb(125, 220, 107);
+  /*COLORSCHEME*/
+  color:#7DB872;
   text-transform:uppercase;
   font-size:20px;
 }
@@ -358,7 +365,8 @@ footer a:active  {
   width: 100%;
   height: 90px;
   color: white;
-  background-color: rgba(162, 208, 212, 0.59);
+  /*COLORSCHEME*/
+  background-color: rgba(125, 184, 114, 0.59);
   text-align: center;
   margin-left: auto;
   margin-right: auto;
